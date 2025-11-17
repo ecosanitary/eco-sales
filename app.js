@@ -413,7 +413,22 @@ printBtn.addEventListener('click', () => {
   const subtotal = invoiceState.items.reduce((s, it) => s + it.unitPrice*it.qty, 0);
   const tax = subtotal * (invoiceState.taxPct || 0) / 100;
   const total = subtotal + tax;
+    
+  const companyInfo = {
+      name: "Ecosanitary",
+      contact: "Sung",
+      phone: "(562) 207-3999",
+      email: "sung@ecosanitary.com",
+      address: "14423 Marquardt Avenue Santa Fe Springs CA. 90670"
+    };
 
+    const notesText = `
+      Thank you for your business!<br>
+      Please contact us if you have any questions about this invoice.<br>
+      Payment terms: Net 0 days - Payment Due Upon Delivery.<br>
+      Please make check payments to: ECO SANITARY
+    `;
+  
   popup.document.write(`
     <html><head><title>Invoice ${escapeHtml(invoiceState.invoiceNumber||'')}</title>
       <style>body{font-family:Arial,Helvetica,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px}</style>
