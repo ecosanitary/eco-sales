@@ -1,0 +1,152 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f9fbff;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: #0d6efd;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.header input {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  width: 90%;
+  max-width: 400px;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background: #eee;
+  font-size: 0.9rem;
+}
+.breakdown-table {
+  width: 100% !important;         /* table occupies full width */
+  max-width: 100% !important;     /* remove the 1200px limit */
+  border-collapse: collapse;
+  table-layout: auto !important;  /* let browser adjust column widths */
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.breakdown-table th,
+.breakdown-table td {
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap; /* prevent wrapping */
+}
+
+.breakdown-table th[data-key="customer"],
+.breakdown-table td:nth-child(1) {
+  min-width: 280px !important; /* wider column */
+  max-width: 450px !important;
+  font-size: 0.90rem;
+}
+
+.breakdown-table th[data-key="month"],
+.breakdown-table td:nth-child(2) {
+  width: 120px;
+}
+
+.breakdown-table th[data-key="totalQty"],
+.breakdown-table td:nth-child(3),
+.breakdown-table th[data-key="avgPrice"],
+.breakdown-table td:nth-child(4),
+.breakdown-table th[data-key="avgCost"],
+.breakdown-table td:nth-child(5) {
+  width: 100px;
+  text-align: left;
+}
+
+.breakdown-table th {
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.breakdown-table th:hover {
+  background-color: #f0f0f0;
+}
+
+.breakdown-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.breakdown-table th.sorted {
+  background-color: #eef5ff;
+  color: #0056b3;
+}
+.breakdown-table td:nth-child(3),
+.breakdown-table th[data-key="description"] {
+  max-width: 550px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.95rem;
+}
+
+.breakdown-table td:nth-child(3):hover::after {
+  content: attr(data-full);
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  white-space: normal;
+  z-index: 100;
+  width: max-content;
+  max-width: 400px;
+}
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.filters-container label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.filters-container input,
+.filters-container select {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  min-width: 120px;
+}
+.results-grid {
+  display: block; /* make tables and titles full width */
+  padding: 1rem 2rem;
+}
