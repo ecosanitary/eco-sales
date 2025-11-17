@@ -98,7 +98,7 @@ async function loadApp() {
       grouped[key].totalPrice += (Number(p.price) || 0) * (Number(p.qty) || 0);
       grouped[key].totalCostAmount += (Number(p.cost) || 0) * (Number(p.qty) || 0);
     });
-    return Object.values(grouped).map(r => ({ ...r, avgPrice: r.totalQty ? r.totalPrice / r.totalQty : 0, avgCost: r.totalQty ? r.totalCostAmount / r.totalQty : 0 }));
+    return Object.values(grouped).map(r => ({ ...r, lastPrice: r.totalQty ? r.totalPrice / r.totalQty : 0, lastCost: r.totalQty ? r.totalCostAmount / r.totalQty : 0 }));
   }
 
   function renderProductBreakdownTable(data, skuForTitle) {
@@ -107,14 +107,14 @@ async function loadApp() {
       <table class="breakdown-table product-table" style="width:100%">
         <thead><tr>
           <th data-key="customer">Customer</th><th data-key="month">Month</th><th data-key="totalQty">Total Qty</th>
-          <th data-key="avgPrice">Avg Price</th><th data-key="avgCost">Cost</th>
+          <th data-key="lastPrice">last Price</th><th data-key="lastCost">Cost</th>
         </tr></thead>
         <tbody>${data.map(r=>`<tr>
           <td>${escapeHtml(r.customer)}</td>
           <td>${escapeHtml(r.month)}</td>
           <td style="text-align:right;">${r.totalQty}</td>
-          <td style="text-align:right;">$${toMoney(r.avgPrice)}</td>
-          <td style="text-align:right;">$${toMoney(r.avgCost)}</td>
+          <td style="text-align:right;">$${toMoney(r.lastPrice)}</td>
+          <td style="text-align:right;">$${toMoney(r.lastCost)}</td>
         </tr>`).join('')}</tbody>
       </table>`;
     attachProductTableSortHandlers();
@@ -188,22 +188,22 @@ async function loadApp() {
       grouped[key].totalCostAmount += (Number(p.cost) || 0) * (Number(p.qty) || 0);
     });
 
-    const rows = Object.values(grouped).map(r => ({ ...r, avgPrice: r.totalQty ? r.totalPrice / r.totalQty : 0, avgCost: r.totalQty ? r.totalCostAmount / r.totalQty : 0 }));
+    const rows = Object.values(grouped).map(r => ({ ...r, lastPrice: r.totalQty ? r.totalPrice / r.totalQty : 0, lastCost: r.totalQty ? r.totalCostAmount / r.totalQty : 0 }));
     customerBreakdownState.rows = rows; customerBreakdownState.sort = { key:null, asc:true };
 
     resultsDiv.innerHTML = `<h3>Customer Purchase Breakdown: ${escapeHtml(selected)}</h3>
       <table class="breakdown-table customer-table" style="width:100%; font-size:0.95rem;">
         <thead><tr>
           <th data-key="sku">SKU</th><th data-key="description">Description</th><th data-key="month">Month</th><th data-key="totalQty">Total Qty</th>
-          <th data-key="avgPrice">Avg Price</th><th data-key="avgCost">Cost</th>
+          <th data-key="lastPrice">last Price</th><th data-key="lastCost">Cost</th>
         </tr></thead>
         <tbody>${rows.map(r=>`<tr>
           <td>${escapeHtml(r.sku)}</td>
           <td data-full="${escapeHtml(r.description)}">${escapeHtml(r.description)}</td>
           <td>${escapeHtml(r.month)}</td>
           <td style="text-align:right;">${r.totalQty}</td>
-          <td style="text-align:right;">$${toMoney(r.avgPrice)}</td>
-          <td style="text-align:right;">$${toMoney(r.avgCost)}</td>
+          <td style="text-align:right;">$${toMoney(r.lastPrice)}</td>
+          <td style="text-align:right;">$${toMoney(r.lastCost)}</td>
         </tr>`).join('')}</tbody>
       </table>`;
     attachCustomerTableSortHandlers();
@@ -226,7 +226,7 @@ async function loadApp() {
         tbody.innerHTML = sorted.map(r=>`<tr>
           <td>${escapeHtml(r.sku)}</td><td data-full="${escapeHtml(r.description)}">${escapeHtml(r.description)}</td>
           <td>${escapeHtml(r.month)}</td><td style="text-align:right;">${r.totalQty}</td>
-          <td style="text-align:right;">$${toMoney(r.avgPrice)}</td><td style="text-align:right;">$${toMoney(r.avgCost)}</td>
+          <td style="text-align:right;">$${toMoney(r.lastPrice)}</td><td style="text-align:right;">$${toMoney(r.lastCost)}</td>
         </tr>`).join('');
       };
     });
