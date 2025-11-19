@@ -1,150 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sales Portal</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Ecosanitary Sales Portal</title>
+  <link rel="stylesheet" href="style.css">
   <style>
+    /* === Base Styles === */
     body {
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f9fbff;
+      color: #222;
       margin: 0;
       padding: 0;
     }
-    header {
-      padding: 1rem;
-      background: #f5f5f5;
+
+    .header {
+      background: #0d6efd;
+      color: #fff;
       text-align: center;
+      padding: 1.5rem;
     }
-    h1 {
-      margin: 0;
+
+    .header input {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      width: 90%;
+      max-width: 400px;
+      border: none;
+      border-radius: 0.5rem;
     }
+
     .nav-tabs {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin: 1rem 0;
-    }
-    .nav-tabs button {
       background: #e9ecef;
+      padding: 0.5rem 0;
+    }
+
+    .nav-tabs button {
       border: none;
       padding: 0.6rem 1.2rem;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
+      background: #f0f0f0;
     }
+
     .nav-tabs button.active {
-      background: #007acc;
-      color: white;
+      background: #0d6efd;
+      color: #fff;
     }
-    .section {
-      display: none;
-      padding: 1rem;
-    }
-    .section.active {
-      display: block;
-    }
+
+    main { padding: 1rem 2rem; max-width: 1200px; margin: auto; }
+
+    section { display: none; }
+    section.active { display: block; }
+
     .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
+      display: block;
+      padding: 1rem 0;
     }
+
     .card {
-      border: 1px solid #ccc;
-      padding: 0.8rem;
-      border-radius: 6px;
       background: #fff;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1.25rem;
+      transition: transform 0.2s ease;
+      margin-bottom: 1rem;
+    }
+
+    .card:hover { transform: scale(1.02); }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background: #eee;
       font-size: 0.9rem;
     }
+
+    /* === Table Styles === */
     .breakdown-table, .invoice-table {
-      width: 100%;
+      width: 100% !important;
+      max-width: 100% !important;
       border-collapse: collapse;
+      table-layout: auto !important;
       margin-top: 0.5rem;
+      font-size: 0.95rem;
+      background: #fff;
     }
+
     .breakdown-table th, .breakdown-table td,
     .invoice-table th, .invoice-table td {
-      border: 1px solid #ccc;
-      padding: 6px 8px;
-      font-size: 0.9rem;
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
     }
-    .breakdown-table th, .invoice-table th {
-      background: #f0f0f0;
-    }
-    #invoiceContainer input[type="number"] {
-      width: 80px;
-    }
-    .invoice-actions {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-    }
-    .invoice-actions button {
-      background: #007acc;
-      color: white;
-      border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 6px;
+
+    .breakdown-table th {
+      background-color: #f7f7f7;
       cursor: pointer;
     }
-    #invoiceSearchResults div.search-result:hover {
-      background: #f0f0f0;
+
+    .breakdown-table th:hover { background-color: #f0f0f0; }
+    .breakdown-table tr:nth-child(even) { background-color: #fafafa; }
+    .breakdown-table th.sorted { background-color: #eef5ff; color: #0056b3; }
+
+    .breakdown-table td:nth-child(3),
+    .breakdown-table th[data-key="description"] {
+      max-width: 550px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.95rem;
     }
+
+    .breakdown-table td:nth-child(3):hover::after {
+      content: attr(data-full);
+      position: absolute;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 4px 8px;
+      white-space: normal;
+      z-index: 100;
+      width: max-content;
+      max-width: 400px;
+    }
+
     .filters-container {
       display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
       flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
     }
+
     .filters-container label {
       display: flex;
       flex-direction: column;
-      font-size: 0.9rem;
+      font-size: 14px;
     }
+
+    .filters-container input,
+    .filters-container select {
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      min-width: 120px;
+    }
+
+    .invoice-actions { margin-top: 1rem; }
+    .invoice-actions button { padding: 6px 12px; border-radius: 4px; background: #0d6efd; color: #fff; border: none; cursor: pointer; }
+
+    .customer-controls, .type-controls { margin-bottom: 1rem; }
   </style>
 </head>
 <body>
 
 <header class="header">
-  <h1>Sales Portal</h1>
-  <div class="nav-tabs">
-    <button id="productsTab" class="active">Products</button>
-    <button id="customersTab">Customers</button>
-    <button id="invoicesTab">Invoices</button>
-  </div>
-
-  <div class="filters-container" id="productFilters">
-    <label>
-      Search Product / Description:
-      <input type="text" id="searchInput" placeholder="Type keyword..." />
-    </label>
-    <label>
-      Select SKU:
-      <select id="skuSelect">
-        <option value="">Select SKU</option>
-      </select>
-    </label>
-  </div>
+  <h1>Ecosanitary Sales Portal</h1>
 </header>
 
+<div class="nav-tabs">
+  <button id="productsTab" class="active">Products</button>
+  <button id="customersTab">Customers</button>
+  <button id="invoicesTab">Invoices</button>
+  <button id="typesTab">Types</button>
+</div>
+
 <main>
-  <section id="productsSection" class="section active">
+  <!-- PRODUCTS SECTION -->
+  <section id="productsSection" class="active">
+    <div class="filters-container" id="productFilters">
+      <label>
+        Search Product / Description:
+        <input type="text" id="searchInput" placeholder="Type keyword...">
+      </label>
+      <label>
+        Select SKU:
+        <select id="skuSelect">
+          <option value="">Select SKU</option>
+        </select>
+      </label>
+    </div>
     <div id="resultsContainer" class="results-grid"></div>
   </section>
 
-  <section id="customersSection" class="section">
+  <!-- CUSTOMERS SECTION -->
+  <section id="customersSection">
     <div id="customerContainer"></div>
   </section>
 
-  <section id="invoicesSection" class="section">
+  <!-- INVOICES SECTION -->
+  <section id="invoicesSection">
     <div id="invoiceContainer"></div>
+    <p id="lastUpdated" style="margin-top:12px;font-size:0.85rem;color:#555;"></p>
   </section>
-</main>
 
-<footer class="footer" style="text-align:center; padding:1rem; background:#f5f5f5;">
-  <p>Last updated: <span id="lastUpdated"></span></p>
-</footer>
+  <!-- TYPES SECTION -->
+  <section id="typesSection"></section>
+</main>
 
 <script src="app.js"></script>
 </body>
