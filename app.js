@@ -1171,9 +1171,9 @@ printBtn.addEventListener('click', () => {
 
     const companyInfo = {
     name: "Ecosanitary",
-    contact: "Carlos Wall",
-    phone: "(949) 350-8054 ",
-    email: "carlos@ecosanitary.com",
+    contact: "Sales",
+    phone: "(562) 207-3999",
+    email: "sung@ecosanitary.com",
     website: "www.ecosanitary.com",
     address: "14423 Marquardt Ave. Santa Fe Springs, CA 90670"
   };
