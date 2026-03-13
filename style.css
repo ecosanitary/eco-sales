@@ -146,7 +146,128 @@ body {
   font-size: 14px;
   min-width: 120px;
 }
+
+/* --- Products Table (SKU × Type) --- */
+/* --- Make Products Table Scrollable --- */
 .results-grid {
-  display: block; /* make tables and titles full width */
+  overflow-x: auto;       /* horizontal scroll if table too wide */
   padding: 1rem 2rem;
+}
+
+.products-table {
+  min-width: 900px;       /* ensures table doesn't shrink too much */
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.80rem;     /* slightly smaller font */
+}
+
+.products-table th,
+.products-table td {
+  border: 1px solid #ddd;
+  padding: 2px 4px;
+  white-space: nowrap;    /* prevent wrapping */
+  vertical-align: middle;
+  text-align: left;
+}
+
+.products-table th {
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.products-table th:hover {
+  background-color: #f0f0f0;
+}
+
+.products-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* --- Force Description column narrower --- */
+.products-table td:nth-child(1),
+.products-table th:nth-child(1) {
+  max-width: 100px;      /* adjust as needed */
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;   /* prevent wrapping */
+}
+
+/* --- On hover, show full description --- */
+.products-table td:nth-child(1):hover {
+  white-space: normal;       /* allow wrapping on hover */
+  background: #fffdf0;       /* subtle highlight */
+  position: relative;
+  z-index: 10;
+}
+
+/* --- Force Description column narrower --- */
+.products-table td:nth-child(2),
+.products-table th:nth-child(2) {
+  max-width: 140px;      /* adjust as needed */
+  width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;   /* prevent wrapping */
+}
+
+/* --- On hover, show full description --- */
+.products-table td:nth-child(2):hover {
+  white-space: normal;       /* allow wrapping on hover */
+  background: #fffdf0;       /* subtle highlight */
+  position: relative;
+  z-index: 10;
+}
+
+/* --- Force Description column narrower --- */
+.products-table td:nth-child(3),
+.products-table th:nth-child(3) {
+  max-width: 60px !important;      /* adjust as needed */
+  width: 60px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;   /* prevent wrapping */
+}
+
+/* --- Force Description column narrower --- */
+/* --- Force columns 4, 5, and 6 narrower --- */
+.products-table td:nth-child(4),
+.products-table th:nth-child(4),
+.products-table td:nth-child(5),
+.products-table th:nth-child(5),
+.products-table td:nth-child(6),
+.products-table th:nth-child(6),
+.products-table td:nth-child(7),
+.products-table th:nth-child(7),
+.products-table td:nth-child(8),
+.products-table th:nth-child(8),
+.products-table td:nth-child(9),
+.products-table th:nth-child(9),
+.products-table td:nth-child(10),
+.products-table th:nth-child(10),
+.products-table td:nth-child(11),
+.products-table th:nth-child(11),
+.products-table td:nth-child(12),
+.products-table th:nth-child(12),
+.products-table td:nth-child(13),
+.products-table th:nth-child(13),
+.products-table td:nth-child(14),
+.products-table th:nth-child(14),
+.products-table td:nth-child(15),
+.products-table th:nth-child(15) {
+  max-width: 100px;      /* adjust as needed */
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;   /* prevent wrapping */
+}
+
+.footer-notes {
+  margin-top: 25px;
+  border-top: 1px solid #aaa;
+  padding-top: 10px;
+  font-size: 0.9rem;
+  display: block;
+  min-height: 60px;
 }
