@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ecosanitary Sales Portal</title>
+  <title>BlueGloveCo Sales Portal</title>
   <link rel="stylesheet" href="style.css">
   <style>
     /* === Base Styles === */
@@ -52,7 +52,7 @@
       color: #fff;
     }
 
-    main { padding: 1rem 2rem; max-width: 1200px; margin: auto; }
+    main { padding: 1rem 2rem; max-width: 1700px; margin: auto; }
 
     section { display: none; }
     section.active { display: block; }
@@ -111,11 +111,11 @@
 
     .breakdown-table td:nth-child(3),
     .breakdown-table th[data-key="description"] {
-      max-width: 550px;
+      max-width: 350px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 0.95rem;
+      font-size: 0.90rem;
     }
 
     .breakdown-table td:nth-child(3):hover::after {
@@ -127,7 +127,7 @@
       white-space: normal;
       z-index: 100;
       width: max-content;
-      max-width: 400px;
+      max-width: 350px;
     }
 
     .filters-container {
@@ -157,19 +157,26 @@
     .invoice-actions button { padding: 6px 12px; border-radius: 4px; background: #0d6efd; color: #fff; border: none; cursor: pointer; }
 
     .customer-controls, .type-controls { margin-bottom: 1rem; }
+    
+    /* CRM specific container margin */
+    #crmContainer { margin-top: 1rem; }
   </style>
 </head>
 <body>
 
 <header class="header">
-  <h1>Ecosanitary Sales Portal</h1>
+  <h1>BlueGloveCo Sales Portal</h1>
 </header>
 
+<!-- === NAV TABS === -->
 <div class="nav-tabs">
   <button id="productsTab" class="active">Products</button>
   <button id="customersTab">Customers</button>
+  <button id="crmTab">CRM</button> <!-- NEW CRM TAB -->
   <button id="invoicesTab">Invoices</button>
   <button id="typesTab">Types</button>
+  <button id="vendorsTab">Vendors</button>
+  <button id="purchasingTab">Purchasing Suggestions</button>
 </div>
 
 <main>
@@ -180,12 +187,6 @@
         Search Product / Description:
         <input type="text" id="searchInput" placeholder="Type keyword...">
       </label>
-      <label>
-        Select SKU:
-        <select id="skuSelect">
-          <option value="">Select SKU</option>
-        </select>
-      </label>
     </div>
     <div id="resultsContainer" class="results-grid"></div>
   </section>
@@ -195,6 +196,11 @@
     <div id="customerContainer"></div>
   </section>
 
+  <!-- CRM SECTION -->
+<section id="crmSection">
+  <div id="crmContainer"></div>
+</section>
+
   <!-- INVOICES SECTION -->
   <section id="invoicesSection">
     <div id="invoiceContainer"></div>
@@ -203,6 +209,14 @@
 
   <!-- TYPES SECTION -->
   <section id="typesSection"></section>
+
+  <!-- VENDOR SECTION -->
+  <section id="vendorsSection">
+    <div id="vendorContainer"></div>
+  </section>
+
+  <!-- PURCHASING SUGGESTIONS SECTION -->
+  <section id="purchasingSection"></section>
 </main>
 
 <script src="app.js"></script>
