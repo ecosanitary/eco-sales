@@ -1126,29 +1126,69 @@ addrInput.addEventListener('input', e => invoiceState.customerAddress = e.target
 
     // Deduplicate by SKU, latest date
     const dedupe = new Map();
-    (custMatches.length ? custMatches.concat(globalMatches) : globalMatches).forEach(p => {
-      if (!dedupe.has(p.sku) || new Date(p.date) > new Date(dedupe.get(p.sku).date)) dedupe.set(p.sku, p);
+
+(custMatches.length ? custMatches.concat(globalMatches) : globalMatches).forEach(p => {
+  const existing = dedupe.get(p.sku);
+
+  if (
+    !existing ||
+    new Date(p.date).getTime() > new Date(existing.date).getTime()
+  ) {
+    dedupe.set(p.sku, p);
+  }
+});
+
+// Render results
+Array.from(dedupe.values()).slice(0, 50).forEach(p => {
+  let lastPrice = 0;
+
+  if (cust) {
+    const purchases = products
+      .filter(x =>
+        x.customer &&
+        cust &&
+        x.customer.toLowerCase().trim() === cust.toLowerCase().trim() &&
+        x.sku === p.sku
+      )
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    if (purchases.length > 0) {
+      lastPrice = parseFloat(purchases[0].price) || 0;
+    }
+  }
+
+  // Fallback (if no customer price found)
+if (!lastPrice) {
+  lastPrice = 0;
+}
+
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'invoice-search-item';
+  itemDiv.style.cssText = 'padding:6px;border:1px solid #eee;cursor:pointer;background:#fff;';
+
+  itemDiv.innerHTML = `
+    <strong>${escapeHtml(p.description || '')}</strong> —
+    <small>${escapeHtml(p.sku || '')}</small>
+    <span style="float:right">
+  ${lastPrice ? `$${toMoney(lastPrice)}` : 'No Price'}
+</span>
+  `;
+
+  itemDiv.addEventListener('click', () => {
+    invoiceState.items.push({
+      sku: p.sku,
+      description: p.description,
+      qty: 1,
+      unitPrice: lastPrice
     });
 
-    [...dedupe.values()].slice(0, 50).forEach(p => {
-      let lastPrice = 0;
-      if (cust) {
-        const purchases = products.filter(x => x.customer === cust && x.sku === p.sku)
-          .sort((a, b) => new Date(b.date) - new Date(a.date));
-        if (purchases.length) lastPrice = Number(purchases[0].price) || 0;
-      }
-      const itemDiv = document.createElement('div');
-      itemDiv.className = 'invoice-search-item';
-      itemDiv.style.cssText = 'padding:6px;border:1px solid #eee;cursor:pointer;background:#fff;';
-      itemDiv.innerHTML = `<strong>${escapeHtml(p.description)}</strong> — <small>${escapeHtml(p.sku)}</small> <span style="float:right">$${toMoney(lastPrice)}</span>`;
-      itemDiv.addEventListener('click', () => {
-        invoiceState.items.push({ sku: p.sku, description: p.description, qty: 1, unitPrice: lastPrice });
-        prodInput.value = '';
-        resultsList.innerHTML = '';
-        renderInvoiceRows();
-      });
-      resultsList.appendChild(itemDiv);
-    });
+    prodInput.value = '';
+    resultsList.innerHTML = '';
+    renderInvoiceRows();
+  });
+
+  resultsList.appendChild(itemDiv);
+});
   });
 
   // --- Print / PDF ---
@@ -1171,9 +1211,9 @@ printBtn.addEventListener('click', () => {
 
     const companyInfo = {
     name: "Ecosanitary",
-    contact: "Sales",
-    phone: "(562) 207-3999",
-    email: "sung@ecosanitary.com",
+    contact: "Carlos Wall",
+    phone: "(949) 350-8054 ",
+    email: "carlos@ecosanitary.com",
     website: "www.ecosanitary.com",
     address: "14423 Marquardt Ave. Santa Fe Springs, CA 90670"
   };
@@ -1257,7 +1297,6 @@ function generateInvoiceNumber() {
   const d = new Date();
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-001`;
 }
-
 // --- VENDORS TAB ---
 let vendorBreakdownState = { rows: [], sort: { key:null, asc:true } };
 
