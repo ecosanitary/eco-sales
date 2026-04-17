@@ -1,6 +1,6 @@
 const USERS = {
   "admin": "1234",
-  "sales": "abcd"
+  "sales": "Se1$$ec0"
 };
 
 function login() {
