@@ -1,5 +1,5 @@
 const USERS = {
-  "admin": "1234",
+  "admin": "EP00%1",
   "sales": "Se1$$ec0"
 };
 
