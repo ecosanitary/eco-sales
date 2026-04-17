@@ -23,7 +23,7 @@ function showPortal() {
 
 // Auto-login if already logged in
 window.onload = function () {
-  if (localStorage.getItem("loggedIn") === "true") {
+  if (sessionStorage.getItem("loggedIn") === "true") {
     showPortal();
   }
 };
