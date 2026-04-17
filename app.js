@@ -8,8 +8,8 @@ function login() {
   const pass = document.getElementById("password").value;
 
   if (USERS[user] && USERS[user] === pass) {
-    localStorage.setItem("loggedIn", "true");
-    localStorage.setItem("user", user);
+    sessionStorage.setItem("loggedIn", "true");
+    sessionStorage.setItem("user", user);
     showPortal();
   } else {
     document.getElementById("loginError").innerText = "Invalid credentials";
