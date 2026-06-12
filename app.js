@@ -334,6 +334,7 @@ const FIXED_TYPE_ORDER = [
   "reseller special",
   "reseller strategic",
   "GENERAL"
+  "Unknown"
 ];
 
 // --- UTILITIES ---
