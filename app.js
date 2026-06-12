@@ -1,3 +1,8 @@
+const USERS = {
+  "admin": "EP00%1",
+  "sales": "Se1$$ec0"
+};
+
 function login() {
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
