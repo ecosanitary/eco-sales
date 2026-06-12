@@ -1210,20 +1210,20 @@ printBtn.addEventListener('click', () => {
   const total = subtotal + tax;
 
     const companyInfo = {
-    name: "Blue Glove Co",
-    contact: "Carlos Wall",
-    phone: "(949) 350-8054 ",
-    email: "carlos@bluegloveco.com",
-    website: "www.bluegloveco.com",
-    address: "1751 E. Occidental St., Santa Ana CA 92705"
+    name: "Ecosanitary",
+    contact: "Sung",
+    phone: "(562) 207-3999 ",
+    email: "sung@ecosanitary.com",
+    website: "www.ecosanitary.com",
+    address: "14423 Marquardt Avenue, Santa Fe Springs, CA 90670"
   };
 
   // --- Footer text: ALWAYS shows up ---
   const footerText = `Thank you for your business!<br>
 Please contact us if you have any questions about this invoice.<br>
 Payment terms: Net 0 days - Payment Due Upon Delivery.<br>
-Please make check payments to: KIWI GROUP CORP<br>
-Zelle payments can be made to: 949-350-8054`;
+Please make check payments to: ECOSANITARY<br>
+Apple Pay accepted upon pick-up`;
 
   // --- User notes: optional ---
   const userNotes = invoiceState.notes.trim();
