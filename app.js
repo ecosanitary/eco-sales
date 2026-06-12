@@ -1,32 +1,3 @@
-const USERS = {
-  "admin": "EP00%1",
-  "sales": "Se1$$ec0"
-};
-
-function login() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
-
-  if (USERS[user] && USERS[user] === pass) {
-    sessionStorage.setItem("loggedIn", "true");
-    sessionStorage.setItem("user", user);
-    showPortal();
-  } else {
-    document.getElementById("loginError").innerText = "Invalid credentials";
-  }
-}
-
-function showPortal() {
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("portalContent").style.display = "block";
-}
-
-// Auto-login if already logged in
-window.onload = function () {
-  if (sessionStorage.getItem("loggedIn") === "true") {
-    showPortal();
-  }
-};
 async function loadApp() {
   // --- Fetch JSON data ---
   const [productsRes, purchasesRes, crmRes] = await Promise.all([
