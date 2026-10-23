@@ -301,7 +301,7 @@ const FIXED_TYPE_ORDER = [
   "end user - church",
   "end user - golf course",
   "end user - car dealers",
-  "reseller no-wareh",
+  "gas station",
   "reseller special",
   "reseller strategic",
   "rest"
