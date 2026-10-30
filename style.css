@@ -1,4 +1,4 @@
-body {
+rbody {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: #f9fbff;
   color: #222;
@@ -84,7 +84,7 @@ body {
 .breakdown-table th[data-key="avgCost"],
 .breakdown-table td:nth-child(5) {
   width: 100px;
-  text-align: left;
+  text-align: center;
 }
 
 .breakdown-table th {
