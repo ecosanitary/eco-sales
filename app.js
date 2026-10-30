@@ -142,6 +142,22 @@ function renderCRMProfile(c) {
 
   const productFilters = document.getElementById('productFilters');
 
+  const searchInput = document.getElementById('searchInput');
+const resultsContainer = document.getElementById('resultsContainer');
+const customerContainer = document.getElementById('customerContainer');
+const typesSection = document.getElementById('typesSection');
+const vendorsSection = document.getElementById('vendorsSection');
+
+// --- Tab switching ---
+function showSection(name) {
+  Object.values(sections).forEach(s => s.classList.remove('active'));
+  Object.values(tabs).forEach(t => t.classList.remove('active'));
+
+  sections[name].classList.add('active');
+  tabs[name].classList.add('active');
+
+  productFilters.style.display = (name === 'products') ? 'flex' : 'none';
+
 // --- Tab switching ---
 function showSection(name) {
   Object.values(sections).forEach(s => s.classList.remove('active'));
@@ -155,11 +171,8 @@ function showSection(name) {
   // Reset Products tab to Top 100 Best Sellers
   if (name === 'products') {
     document.getElementById('searchInput').value = '';
-
     document.getElementById('topSellersContainer').style.display = 'block';
-
     document.getElementById('resultsContainer').innerHTML = '';
-
     renderTopSellers();
   }
 
@@ -176,9 +189,6 @@ function showSection(name) {
   Object.keys(tabs).forEach(key => {
     tabs[key].addEventListener('click', () => showSection(key));
   });
-
-  showSection('products'); // default tab
-
 
 function buildPurchasingSuggestionUI(products, purchases) {
   const section = sections.purchasing;
