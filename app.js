@@ -142,33 +142,36 @@ function renderCRMProfile(c) {
 
   const productFilters = document.getElementById('productFilters');
 
-  // --- Tab switching ---
-  function showSection(name) {
-    Object.values(sections).forEach(s => s.classList.remove('active'));
-    Object.values(tabs).forEach(t => t.classList.remove('active'));
-    sections[name].classList.add('active');
-    tabs[name].classList.add('active');
-    productFilters.style.display = (name === 'products') ? 'flex' : 'none';
-    // Reset Products tab to Top 100 Best Sellers
-if (name === 'products') {
-  document.getElementById('searchInput').value = '';
+// --- Tab switching ---
+function showSection(name) {
+  Object.values(sections).forEach(s => s.classList.remove('active'));
+  Object.values(tabs).forEach(t => t.classList.remove('active'));
 
-  document.getElementById('topSellersContainer').style.display = 'block';
+  sections[name].classList.add('active');
+  tabs[name].classList.add('active');
 
-  document.getElementById('resultsContainer').innerHTML = '';
+  productFilters.style.display = (name === 'products') ? 'flex' : 'none';
 
-  renderTopSellers();
-}
+  // Reset Products tab to Top 100 Best Sellers
+  if (name === 'products') {
+    document.getElementById('searchInput').value = '';
 
-    switch(name) {
-      case 'customers': buildCustomerUI(products); break;
-      case 'crm': buildCRMUI(); break;
-      case 'invoices': buildInvoiceUI(); break;
-      case 'types': buildTypesUI(); break;
-      case 'vendors': buildVendorUI(); break;
-      case 'purchasing': buildPurchasingSuggestionUI(products, purchases); break;
-    }
+    document.getElementById('topSellersContainer').style.display = 'block';
+
+    document.getElementById('resultsContainer').innerHTML = '';
+
+    renderTopSellers();
   }
+
+  switch(name) {
+    case 'customers': buildCustomerUI(products); break;
+    case 'crm': buildCRMUI(); break;
+    case 'invoices': buildInvoiceUI(); break;
+    case 'types': buildTypesUI(); break;
+    case 'vendors': buildVendorUI(); break;
+    case 'purchasing': buildPurchasingSuggestionUI(products, purchases); break;
+  }
+}
 
   Object.keys(tabs).forEach(key => {
     tabs[key].addEventListener('click', () => showSection(key));
@@ -741,8 +744,7 @@ function attachProductTableSortHandlers() {
 }
 
 // --- INITIAL TOP 100 DASHBOARD ---
-resultsContainer.innerHTML = '';
-renderTopSellers();
+showSection('products');
 
   // --- CUSTOMERS TAB ---
   let customerBreakdownState = { rows: [], sort: { key:null, asc:true } };
