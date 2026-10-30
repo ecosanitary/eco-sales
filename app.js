@@ -731,7 +731,8 @@ function attachProductTableSortHandlers() {
 }
 
 // --- INITIAL TOP 100 DASHBOARD ---
-resultsContainer.innerHTML = '';
+document.getElementById('topSellersContainer').style.display = 'block';
+document.getElementById('resultsContainer').innerHTML = '';
 renderTopSellers();
 
   // --- CUSTOMERS TAB ---
