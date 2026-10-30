@@ -149,6 +149,16 @@ function renderCRMProfile(c) {
     sections[name].classList.add('active');
     tabs[name].classList.add('active');
     productFilters.style.display = (name === 'products') ? 'flex' : 'none';
+    // Reset Products tab to Top 100 Best Sellers
+if (name === 'products') {
+  document.getElementById('searchInput').value = '';
+
+  document.getElementById('topSellersContainer').style.display = 'block';
+
+  document.getElementById('resultsContainer').innerHTML = '';
+
+  renderTopSellers();
+}
 
     switch(name) {
       case 'customers': buildCustomerUI(products); break;
