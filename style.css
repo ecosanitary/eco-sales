@@ -271,9 +271,9 @@ rbody {
   display: block;
   min-height: 60px;
 }
-/* --- Types Table: Widen Price Range Column --- */
-.types-table th:last-child,
-.types-table td:last-child {
+/* === TYPES TABLE: PRICE RANGE COLUMN === */
+#typesSection table th:last-child,
+#typesSection table td:last-child {
   width: 160px !important;
   min-width: 160px !important;
   white-space: nowrap;
