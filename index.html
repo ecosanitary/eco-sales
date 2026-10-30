@@ -163,8 +163,30 @@
     /* === TOP 100 SALES COMPARISON === */
 
 .top-sellers-table {
-  width: 100%;
-  table-layout: auto !important;
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+.top-sellers-table th:nth-child(1),
+.top-sellers-table td:nth-child(1) {
+  width: 15%;
+}
+
+.top-sellers-table th:nth-child(2),
+.top-sellers-table td:nth-child(2) {
+  width: 37%;
+}
+
+.top-sellers-table th:nth-child(n+3),
+.top-sellers-table td:nth-child(n+3) {
+  width: 12%;
+  text-align: center;
+}
+
+.top-sellers-table td:nth-child(2) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-sellers-table th:nth-child(n+3),
