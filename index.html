@@ -160,51 +160,6 @@
     
     /* CRM specific container margin */
     #crmContainer { margin-top: 1rem; }
-
-/* === TOP 100 SALES COMPARISON === */
-
-.top-sellers-table {
-  width: 100%;
-  table-layout: fixed !important;
-  border-collapse: collapse;
-}
-
-/* SKU */
-.top-sellers-table th:nth-child(1),
-.top-sellers-table td:nth-child(1) {
-  width: 15%;
-  text-align: left;
-}
-
-/* DESCRIPTION */
-.top-sellers-table th:nth-child(2),
-.top-sellers-table td:nth-child(2) {
-  width: 37%;
-  max-width: none !important;
-  text-align: left;
-  white-space: nowrap !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* SALES COLUMNS */
-.top-sellers-table th:nth-child(n+3),
-.top-sellers-table td:nth-child(n+3) {
-  width: 12%;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* HEADER */
-.top-sellers-table th {
-  cursor: pointer;
-  background-color: #f7f7f7;
-}
-
-/* ROW HOVER */
-.top-sellers-table tbody tr:hover {
-  background-color: #eef5ff;
-}
   </style>
 </head>
 <body>
@@ -233,14 +188,7 @@
         <input type="text" id="searchInput" placeholder="Type keyword...">
       </label>
     </div>
-    <!-- TOP 100 SALES COMPARISON -->
-<div id="topSellersContainer">
-  <h2>Top 100 Best Sellers — Sales Comparison</h2>
-  <div id="topSellersTable"></div>
-</div>
-
-<!-- EXISTING PRODUCT SEARCH RESULTS -->
-<div id="resultsContainer" class="results-grid"></div>
+    <div id="resultsContainer" class="results-grid"></div>
   </section>
 
   <!-- CUSTOMERS SECTION -->
