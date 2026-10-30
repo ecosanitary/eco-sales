@@ -160,9 +160,19 @@ function renderCRMProfile(c) {
     }
   }
 
-  Object.keys(tabs).forEach(key => {
-    tabs[key].addEventListener('click', () => showSection(key));
+Object.keys(tabs).forEach(key => {
+  tabs[key].addEventListener('click', () => {
+    showSection(key);
+
+    // Reset Products to the Top 100 dashboard
+    if (key === 'products') {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('resultsContainer').innerHTML = '';
+      document.getElementById('topSellersContainer').style.display = 'block';
+      renderTopSellers();
+    }
   });
+});
 
   showSection('products'); // default tab
 
