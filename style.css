@@ -278,3 +278,8 @@ rbody {
   min-width: 160px !important;
   white-space: nowrap;
 }
+/* === TYPES TABLE: CENTER CUSTOMERS & PRICE RANGE === */
+#typesSection table th:nth-last-child(-n+2),
+#typesSection table td:nth-last-child(-n+2) {
+  text-align: center !important;
+}
