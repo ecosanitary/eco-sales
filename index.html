@@ -160,6 +160,33 @@
     
     /* CRM specific container margin */
     #crmContainer { margin-top: 1rem; }
+
+    /* === TOP 100 SALES COMPARISON === */
+
+.top-sellers-table {
+  width: 100%;
+  table-layout: auto !important;
+}
+
+.top-sellers-table th:nth-child(n+3),
+.top-sellers-table td:nth-child(n+3) {
+  text-align: center;
+}
+
+.top-sellers-table td:nth-child(2) {
+  max-width: none;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.top-sellers-table th {
+  cursor: pointer;
+}
+
+.top-sellers-table tbody tr:hover {
+  background-color: #eef5ff;
+}
   </style>
 </head>
 <body>
