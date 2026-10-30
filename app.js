@@ -142,53 +142,30 @@ function renderCRMProfile(c) {
 
   const productFilters = document.getElementById('productFilters');
 
-  const searchInput = document.getElementById('searchInput');
-const resultsContainer = document.getElementById('resultsContainer');
-const customerContainer = document.getElementById('customerContainer');
-const typesSection = document.getElementById('typesSection');
-const vendorsSection = document.getElementById('vendorsSection');
+  // --- Tab switching ---
+  function showSection(name) {
+    Object.values(sections).forEach(s => s.classList.remove('active'));
+    Object.values(tabs).forEach(t => t.classList.remove('active'));
+    sections[name].classList.add('active');
+    tabs[name].classList.add('active');
+    productFilters.style.display = (name === 'products') ? 'flex' : 'none';
 
-// --- Tab switching ---
-function showSection(name) {
-  Object.values(sections).forEach(s => s.classList.remove('active'));
-  Object.values(tabs).forEach(t => t.classList.remove('active'));
-
-  sections[name].classList.add('active');
-  tabs[name].classList.add('active');
-
-  productFilters.style.display = (name === 'products') ? 'flex' : 'none';
-
-// --- Tab switching ---
-function showSection(name) {
-  Object.values(sections).forEach(s => s.classList.remove('active'));
-  Object.values(tabs).forEach(t => t.classList.remove('active'));
-
-  sections[name].classList.add('active');
-  tabs[name].classList.add('active');
-
-  productFilters.style.display = (name === 'products') ? 'flex' : 'none';
-
-  // Reset Products tab to Top 100 Best Sellers
-  if (name === 'products') {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('topSellersContainer').style.display = 'block';
-    document.getElementById('resultsContainer').innerHTML = '';
-    renderTopSellers();
+    switch(name) {
+      case 'customers': buildCustomerUI(products); break;
+      case 'crm': buildCRMUI(); break;
+      case 'invoices': buildInvoiceUI(); break;
+      case 'types': buildTypesUI(); break;
+      case 'vendors': buildVendorUI(); break;
+      case 'purchasing': buildPurchasingSuggestionUI(products, purchases); break;
+    }
   }
-
-  switch(name) {
-    case 'customers': buildCustomerUI(products); break;
-    case 'crm': buildCRMUI(); break;
-    case 'invoices': buildInvoiceUI(); break;
-    case 'types': buildTypesUI(); break;
-    case 'vendors': buildVendorUI(); break;
-    case 'purchasing': buildPurchasingSuggestionUI(products, purchases); break;
-  }
-}
 
   Object.keys(tabs).forEach(key => {
     tabs[key].addEventListener('click', () => showSection(key));
   });
+
+  showSection('products'); // default tab
+
 
 function buildPurchasingSuggestionUI(products, purchases) {
   const section = sections.purchasing;
@@ -489,152 +466,14 @@ function attachProductsTableHandlers(searchTerm, typeColumns) {
   });
 }
 
-// === TOP 100 SALES COMPARISON ===
-let topSellersSort = { key: 'last30', asc: false };
-
-function renderTopSellers() {
-  const container = document.getElementById('topSellersTable');
-  if (!container) return;
-
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
-  const start30 = new Date(today);
-  start30.setDate(start30.getDate() - 29);
-
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const previousMonthStart = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-
-  const monthLabel = offset =>
-    new Date(now.getFullYear(), now.getMonth() + offset, 1)
-      .toLocaleString('en-US', { month: 'short', year: 'numeric' });
-
-  // Parse MM/DD/YYYY dates without timezone ambiguity
-  function parseSalesDate(value) {
-    const match = String(value || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (!match) return null;
-
-    const d = new Date(+match[3], +match[1] - 1, +match[2]);
-    if (
-      d.getFullYear() !== +match[3] ||
-      d.getMonth() !== +match[1] - 1 ||
-      d.getDate() !== +match[2]
-    ) return null;
-
-    return d;
-  }
-
-  const skuMap = new Map();
-
-  products.forEach(p => {
-    const date = parseSalesDate(p.date);
-    const sku = String(p.sku || '').trim();
-    if (!date || !sku || date >= tomorrow) return;
-
-    if (!skuMap.has(sku)) {
-      skuMap.set(sku, {
-        sku,
-        description: '',
-        latestDate: null,
-        last30: 0,
-        thisMonth: 0,
-        lastMonth: 0,
-        previousMonth: 0
-      });
-    }
-
-    const item = skuMap.get(sku);
-    const qty = Number(p.qty) || 0;
-
-    if (!item.latestDate || date >= item.latestDate) {
-      item.description = p.description || '';
-      item.latestDate = date;
-    }
-
-    if (date >= start30) item.last30 += qty;
-    if (date >= monthStart) item.thisMonth += qty;
-    else if (date >= lastMonthStart) item.lastMonth += qty;
-    else if (date >= previousMonthStart) item.previousMonth += qty;
-  });
-
-  // Select Top 100 by last 30 days, regardless of display sort
-  const rows = [...skuMap.values()]
-    .filter(r => r.last30 > 0)
-    .sort((a, b) => b.last30 - a.last30 || a.sku.localeCompare(b.sku))
-    .slice(0, 100);
-
-  const key = topSellersSort.key;
-  const direction = topSellersSort.asc ? 1 : -1;
-
-  rows.sort((a, b) => {
-    if (key === 'sku' || key === 'description') {
-      return direction * a[key].localeCompare(b[key]);
-    }
-    return direction * (a[key] - b[key]) || a.sku.localeCompare(b.sku);
-  });
-
-  const number = n => n.toLocaleString('en-US', {
-    maximumFractionDigits: 2
-  });
-
-  container.innerHTML = `
-    <table class="breakdown-table top-sellers-table">
-      <thead>
-        <tr>
-          <th data-key="sku">SKU</th>
-          <th data-key="description">Description</th>
-          <th data-key="last30">Last 30 Days</th>
-          <th data-key="thisMonth">${monthLabel(0)} MTD</th>
-          <th data-key="lastMonth">${monthLabel(-1)}</th>
-          <th data-key="previousMonth">${monthLabel(-2)}</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${rows.map(r => `
-          <tr>
-            <td>${escapeHtml(r.sku)}</td>
-            <td title="${escapeHtml(r.description)}">${escapeHtml(r.description)}</td>
-            <td>${number(r.last30)}</td>
-            <td>${number(r.thisMonth)}</td>
-            <td>${number(r.lastMonth)}</td>
-            <td>${number(r.previousMonth)}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-    ${rows.length ? '' : '<p>No sales found in the last 30 days.</p>'}
-  `;
-
-  container.querySelectorAll('th[data-key]').forEach(th => {
-    th.addEventListener('click', () => {
-      const selectedKey = th.dataset.key;
-      topSellersSort.asc = topSellersSort.key === selectedKey
-        ? !topSellersSort.asc
-        : (selectedKey === 'sku' || selectedKey === 'description');
-
-      topSellersSort.key = selectedKey;
-      renderTopSellers();
-    });
-  });
-}
-
 // --- SEARCH LISTENER ---
 searchInput.addEventListener("input", () => {
   const term = searchInput.value.trim().toLowerCase();
 
-const topSellersContainer = document.getElementById('topSellersContainer');
-
-if (!term) {
-  topSellersContainer.style.display = 'block';
-  resultsContainer.innerHTML = '';
-  renderTopSellers();
-  return;
-}
-
-topSellersContainer.style.display = 'none';
+  if (!term) {
+    resultsContainer.innerHTML = `<p>Type a product keyword to search.</p>`;
+    return;
+  }
 
   const filtered = products.filter(p => {
     const desc = (p.description || '').toLowerCase();
@@ -753,8 +592,8 @@ function attachProductTableSortHandlers() {
   });
 }
 
-// --- INITIAL TOP 100 DASHBOARD ---
-showSection('products');
+// --- INITIAL PROMPT ---
+resultsContainer.innerHTML = `<p>Type a product keyword to search.</p>`;
 
   // --- CUSTOMERS TAB ---
   let customerBreakdownState = { rows: [], sort: { key:null, asc:true } };
